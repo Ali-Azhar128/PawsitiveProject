@@ -49,6 +49,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        resValue "string", "MAPS_API_KEY", "AIzaSyD_-ha0aDgy5HWJCLJDv5YDHQ5Z4j3u_eo"
     }
 
     buildTypes {
