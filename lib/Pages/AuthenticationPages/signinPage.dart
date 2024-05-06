@@ -61,6 +61,7 @@ class signinPage extends StatelessWidget {
           email: email,
           password: pass,
         );
+        loginController.resetLoading();
         print("done");
       } on FirebaseAuthException catch (e) {
         blockLogin = true;
@@ -187,6 +188,7 @@ class signinPage extends StatelessWidget {
                               ? Colors.black
                               : Color(0xff4a454f),
                         ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 10),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: iconColorController.emailFocus.value
@@ -256,6 +258,7 @@ class signinPage extends StatelessWidget {
                             ? Colors.black
                             : Color(0xff4a454f),
                       ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 10),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: iconColorController.passFocus.value
@@ -352,13 +355,13 @@ class signinPage extends StatelessWidget {
                           );
                         } on FirebaseAuthException catch (e) {
                           print(e);
+                          loginController.resetLoading();
                           return;
                         }
 
                         print(emailController.text);
                         print(passwordController.text);
 
-                        print('User created');
                         loginController.resetLoading();
                         Get.offAll(() => BottomNav());
                       }

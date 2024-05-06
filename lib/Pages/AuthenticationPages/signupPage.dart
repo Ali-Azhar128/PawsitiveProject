@@ -43,6 +43,7 @@ class signupPage extends StatelessWidget {
     //Firebase function to create user
     //Firebase Auth Instance
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    bool emailInUse = false;
     Future<void> createUser(String email, String pass) async {
       try {
         print("Done 1");
@@ -50,11 +51,13 @@ class signupPage extends StatelessWidget {
           email: email,
           password: pass,
         );
+        Get.to(signinPage());
         print("done");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
+          emailInUse = true;
           print('The account already exists for that email.');
         } else if (e.code == 'invalid-email') {
           print('Badly formatted email');
@@ -135,9 +138,9 @@ class signupPage extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                       child: Text(
                         "Embark on Your Pet-loving Journey",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 30, // Set the font size
+                              fontSize: 28, // Set the font size
                               fontWeight: FontWeight.w900, // Make the text bold
                               color: Color.fromARGB(255, 68, 68,
                                   68) // Set your desired text color
@@ -149,9 +152,9 @@ class signupPage extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                       child: Text(
                         "Sign Up and Be a Pet Hero",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
-                            fontSize: 19, // Set the font size
+                            fontSize: 17, // Set the font size
                             // Make the text bold
                             color: Color.fromARGB(255, 128, 128,
                                 128) // Set your desired text color
@@ -233,6 +236,8 @@ class signupPage extends StatelessWidget {
                               return 'Enter an email';
                             } else if (!isEmailValid(value)) {
                               return 'Enter a valid email';
+                            } else if (emailInUse) {
+                              return 'Email is already in use';
                             }
                             return null;
                           },
@@ -374,7 +379,7 @@ class signupPage extends StatelessWidget {
                         } else {
                           await createUser(
                               emailController.text, passwordController.text);
-                          // Get.to(AnimalScreen());
+                          _emailFormKey.currentState?.validate();
                           print('User created');
                         }
                       },

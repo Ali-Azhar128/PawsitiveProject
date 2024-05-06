@@ -6,17 +6,17 @@ import 'package:pawsitive1/Controllers/getxControllers/hideIconController.dart';
 import 'package:pawsitive1/Controllers/getxControllers/iconColorController.dart';
 
 class textStyles {
-  TextStyle kHeadingTextStyle = GoogleFonts.roboto(
+  TextStyle kHeadingTextStyle = GoogleFonts.poppins(
     textStyle: TextStyle(
-        fontSize: 30, // Set the font size
+        fontSize: 22, // Set the font size
         fontWeight: FontWeight.w900, // Make the text bold
         color: Color.fromARGB(255, 68, 68, 68) // Set your desired text color
         ),
   );
 
-  TextStyle kSubheadingTextStyle = GoogleFonts.roboto(
+  TextStyle kSubheadingTextStyle = GoogleFonts.poppins(
       fontWeight: FontWeight.w500,
-      fontSize: 19, // Set the font size
+      fontSize: 14, // Set the font size
       // Make the text bold
       color: Color.fromARGB(255, 128, 128, 128) // Set your desired text color
       );

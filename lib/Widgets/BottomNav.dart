@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pawsitive1/Main%20Screen/MainScreen.dart';
+import 'package:pawsitive1/Pages/mapScreen.dart';
+import 'package:pawsitive1/Widgets/ShelterCard.dart';
 import 'package:pawsitive1/Widgets/imageCaptureButton.dart';
+import 'allShelterCard.dart';
 
 class BottomNav extends StatefulWidget {
   @override
@@ -14,15 +17,9 @@ class _BottomNavState extends State<BottomNav> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
-    Text(
-      'Shelters',
-      style: optionStyle,
-    ),
+    allShelterCard(),
     ImageCaptureButton(),
-    Text(
-      'Donation',
-      style: optionStyle,
-    ),
+    MapWidget()
   ];
 
   @override
@@ -44,7 +41,7 @@ class _BottomNavState extends State<BottomNav> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
             child: GNav(
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
@@ -69,8 +66,8 @@ class _BottomNavState extends State<BottomNav> {
                   text: 'Capture',
                 ),
                 GButton(
-                  icon: Icons.monetization_on_outlined,
-                  text: 'Donation',
+                  icon: Icons.map_outlined,
+                  text: 'Map',
                 ),
               ],
               selectedIndex: _selectedIndex,

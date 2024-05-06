@@ -10,29 +10,32 @@ class ShelterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    return GestureDetector(
-      onTap: () => Get.to(() => DonationAmountPage()),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 2,
-        child: FutureBuilder(
-            future: firebaseFirestore.collection('shelters').get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              }
-              final shelters = snapshot.data!.docs;
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      child: FutureBuilder(
+          future: firebaseFirestore.collection('shelters').get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+            final shelters = snapshot.data!.docs;
 
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                    itemCount: shelters.length,
-                    itemBuilder: ((context, index) {
-                      final data =
-                          shelters[index].data() as Map<String, dynamic>;
-                      return Container(
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                  itemCount: shelters.length,
+                  itemBuilder: ((context, index) {
+                    var shelter = shelters[index];
+                    final data = shelters[index].data() as Map<String, dynamic>;
+                    return GestureDetector(
+                      onTap: () {
+                        print(shelter.id);
+                        Get.to(() => DonationAmountPage(shelterId: shelter.id));
+                      },
+                      child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Color.fromARGB(255, 245, 245, 245),
@@ -88,7 +91,7 @@ class ShelterCard extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
-                                'Help Them Find a Home',
+                                data['name'],
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w600),
                               ),
@@ -165,11 +168,11 @@ class ShelterCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      );
-                    })),
-              );
-            }),
-      ),
+                      ),
+                    );
+                  })),
+            );
+          }),
     );
   }
 }

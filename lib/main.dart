@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:pawsitive1/Controllers/getxControllers/hideIconController.dart';
 import 'package:pawsitive1/Controllers/getxControllers/iconColorController.dart';
@@ -10,7 +12,13 @@ import 'package:pawsitive1/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  Stripe.publishableKey = dotenv.env["STRIPE_PUBLISH_KEY"]!;
+  Stripe.merchantIdentifier = "Test Merchant";
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 
@@ -30,7 +38,6 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         home: signupPage());

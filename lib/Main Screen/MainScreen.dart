@@ -29,11 +29,11 @@ class MainScreen extends StatelessWidget {
                         onPressed: () {},
                         icon: Icon(
                           Icons.menu_outlined,
-                          size: 40,
+                          size: 25,
                         )),
                     Container(
-                      height: 45,
-                      width: 45,
+                      height: 30,
+                      width: 30,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle, color: Colors.grey),
                       child: Center(
@@ -60,11 +60,9 @@ class MainScreen extends StatelessWidget {
                       'Join Today\nand Save Lives',
                       style: txtStyle.kHeadingTextStyle,
                     ),
-                    Text(
-                      'Shelter pets need your monthly gift',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    ),
+                    Text('Shelter pets need your monthly gift',
+                        style: txtStyle.kSubheadingTextStyle
+                            .copyWith(color: Colors.black)),
                     GestureDetector(
                       onTap: () async {
                         try {
@@ -98,13 +96,9 @@ class MainScreen extends StatelessWidget {
               SizedBox(
                 height: 17,
               ),
-              Text(
-                'Search For a Pet',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
+              Text('Search For a Pet',
+                  style:
+                      txtStyle.kHeadingTextStyle.copyWith(color: Colors.black)),
               SizedBox(
                 height: 2,
               ),
@@ -119,7 +113,9 @@ class MainScreen extends StatelessWidget {
                     Icons.search,
                     color: Colors.black,
                     size: 22,
-                  ), // Search Icon
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10), // Search Icon
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                         12.0), // Adjust the value as needed
@@ -128,21 +124,25 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Recommended',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-                  ),
+                  Text('Recommended',
+                      style: txtStyle.kHeadingTextStyle
+                          .copyWith(fontSize: 18, color: Colors.black)),
                   Text(
                     'See All',
-                    style: TextStyle(
-                        color: Color(0xff99a2b9),
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                    style: txtStyle.kHeadingTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: const Color.fromARGB(
+                          255,
+                          169,
+                          169,
+                          169,
+                        )),
                   ),
                 ],
               ),

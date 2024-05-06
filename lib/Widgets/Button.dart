@@ -11,9 +11,9 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.fromLTRB(5, 25, 5, 30),
+        margin: EdgeInsets.fromLTRB(5, 25, 5, 15),
         width: double.infinity,
-        height: 60,
+        height: 45,
         decoration: BoxDecoration(
             color: Colors.black, borderRadius: BorderRadius.circular(10)),
         child: Center(
@@ -21,14 +21,14 @@ class Button extends StatelessWidget {
               ? CircularProgressIndicator(
                   strokeCap: StrokeCap.round,
                   color: Colors.white,
-                  strokeWidth: 7,
+                  strokeWidth: 4,
                 )
               : Text(
                   text,
                   style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: 23,
+                          fontSize: 21,
                           fontWeight: FontWeight.w900)),
                 ),
         ),
