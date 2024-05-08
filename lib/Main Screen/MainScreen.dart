@@ -12,8 +12,6 @@ import 'package:pawsitive1/styles/textStyles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     FirebaseAuth _auth = FirebaseAuth.instance;

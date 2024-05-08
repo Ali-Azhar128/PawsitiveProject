@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -66,35 +67,54 @@ class signupPage extends StatelessWidget {
     //Firebase Auth Instance
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     bool emailInUse = false;
-    Future<void> createUser(String email, String pass) async {
-      try {
-        print("Done 1");
-        final credential = await firebaseAuth.createUserWithEmailAndPassword(
-          email: email,
-          password: pass,
-        );
-        Get.to(signinPage());
-        print("done");
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          emailInUse = true;
-          print('The account already exists for that email.');
-        } else if (e.code == 'invalid-email') {
-          print('Badly formatted email');
-        } else {
-          print(e);
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
 
     //Global keys for forms
     final _emailFormKey = GlobalKey<FormState>();
     final _passFormKey = GlobalKey<FormState>();
     final _usernameFormKey = GlobalKey<FormState>();
+
+    Future<void> createUser(String email, String pass, String userName) async {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      try {
+        print("Starting user creation...");
+
+        final credential = await firebaseAuth.createUserWithEmailAndPassword(
+          email: email,
+          password: pass,
+        );
+
+        User? user = credential.user;
+
+        if (user != null) {
+          // Create a new document with UID as the document ID
+          await firestore.collection('users').doc(user.uid).set({
+            'email': email,
+            'username': userName,
+            'createdAt': FieldValue.serverTimestamp(),
+            'donationAmt': 0,
+            'straysReported': 0,
+          });
+
+          print("User and document created successfully.");
+          Get.offAll(() =>
+              signinPage()); // Navigate to sign-in page after successful registration
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        } else if (e.code == 'invalid-email') {
+          print('The email address is badly formatted.');
+        } else {
+          print('FirebaseAuthException: ${e.message}');
+        }
+      } catch (e) {
+        print('General Exception: $e');
+      }
+    }
 
     //Function to check if fields are valid
     bool isFormValid() {
@@ -399,8 +419,8 @@ class signupPage extends StatelessWidget {
                         if (!isFormValid()) {
                           print('Credentials are invalid');
                         } else {
-                          await createUser(
-                              emailController.text, passwordController.text);
+                          await createUser(emailController.text,
+                              passwordController.text, usernameController.text);
                           _emailFormKey.currentState?.validate();
                           print('User created');
                         }

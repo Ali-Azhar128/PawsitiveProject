@@ -365,6 +365,14 @@ class signinPage extends StatelessWidget {
                         print(passwordController.text);
 
                         loginController.resetLoading();
+                        User? currentUser = firebaseAuth.currentUser;
+                        String userId = currentUser!.uid;
+                        DocumentReference userDocRef =
+                            firebaseFirestore.collection('users').doc(userId);
+                        DocumentSnapshot userDoc = await userDocRef.get();
+                        var data = userDoc.data();
+
+                        print('User data:  ${userDoc['donationAmt']}');
                         Get.offAll(() => BottomNav());
                       }
                     },

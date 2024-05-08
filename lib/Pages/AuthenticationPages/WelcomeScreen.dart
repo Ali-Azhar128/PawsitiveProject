@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
@@ -48,9 +49,35 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      print('error');
 
-      await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        final FirebaseFirestore firestore = FirebaseFirestore.instance;
+        final DocumentReference userDocRef =
+            firestore.collection('users').doc(user.uid);
+
+        final DocumentSnapshot userDoc = await userDocRef.get();
+        if (!userDoc.exists) {
+          // User document does not exist, create one
+          await userDocRef.set({
+            'email': user.email,
+            'username': user.displayName,
+            'createdAt': FieldValue.serverTimestamp(),
+            'donationAmt': 0,
+            'straysReported': 0,
+          });
+          print("New user document created.");
+        }
+
+        // Now redirect the user to the BottomNav, passing the donation amount
+        int donationAmt = userDoc.exists
+            ? (userDoc.data() as Map<String, dynamic>)['donationAmt']
+            : 0;
+        Get.offAll(() => BottomNav());
+      }
     } catch (e) {
       print(e);
       Get.snackbar(
