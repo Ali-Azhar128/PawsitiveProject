@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pawsitive1/Controllers/getxControllers/hideIconController.dart';
 import 'package:pawsitive1/Controllers/getxControllers/iconColorController.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,26 @@ class signupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+    Future<dynamic> signInWithGoogle() async {
+      try {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+        final GoogleSignInAuthentication? googleAuth =
+            await googleUser?.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+
+        return await FirebaseAuth.instance.signInWithCredential(credential);
+      } on Exception catch (e) {
+        // TODO
+        print('exception->$e');
+      }
+    }
+
     signupFieldController inputFieldController =
         Get.find<signupFieldController>();
 
@@ -109,11 +131,11 @@ class signupPage extends StatelessWidget {
           ),
           Container(
             color: Color.fromARGB(255, 250, 201, 115),
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: (MediaQuery.of(context).size.height * 0.15).h,
             width: double.infinity,
           ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.57,
+            bottom: (MediaQuery.of(context).size.height * 0.5).h,
             left: 0,
             right: 0,
             child: Image(
@@ -122,7 +144,7 @@ class signupPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.1,
+            bottom: MediaQuery.of(context).size.height * 0.26,
             left: 0,
             right: 0,
             child: Padding(
@@ -135,12 +157,12 @@ class signupPage extends StatelessWidget {
                       width: double.infinity,
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 10).h,
                       child: Text(
                         "Embark on Your Pet-loving Journey",
                         style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 28, // Set the font size
+                              fontSize: 21.sp, // Set the font size
                               fontWeight: FontWeight.w900, // Make the text bold
                               color: Color.fromARGB(255, 68, 68,
                                   68) // Set your desired text color
@@ -149,12 +171,12 @@ class signupPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20).h,
                       child: Text(
                         "Sign Up and Be a Pet Hero",
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
-                            fontSize: 17, // Set the font size
+                            fontSize: 15.sp, // Set the font size
                             // Make the text bold
                             color: Color.fromARGB(255, 128, 128,
                                 128) // Set your desired text color
