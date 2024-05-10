@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pawsitive1/Pages/AnimalMapScreen.dart';
+import 'package:pawsitive1/Widgets/Button.dart';
 
 class AnimalsList extends StatelessWidget {
   const AnimalsList({super.key});
@@ -28,6 +32,7 @@ class AnimalsList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final data = animals[index].data() as Map<String, dynamic>;
                   return Container(
+                    margin: EdgeInsets.only(right: 30),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -40,7 +45,7 @@ class AnimalsList extends StatelessWidget {
                             offset: Offset(0, 2), // Adjust the offset if nee
                           ),
                         ]),
-                    width: 230,
+                    width: 200,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 6, 5),
                       child: Column(children: [
@@ -56,7 +61,7 @@ class AnimalsList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${data['age']} Years',
+                              '${data['type']}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w800, fontSize: 20),
                             ),
@@ -67,6 +72,33 @@ class AnimalsList extends StatelessWidget {
                             )
                           ],
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () => Get.to(() => AnimalMapScreen(
+                                currentLongitude: data['longitude'],
+                                currentLatitude: data['latitude'],
+                              )),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Center(
+                              child: Text(
+                                'Find on Map',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                          ),
+                        )
                       ]),
                     ),
                   );

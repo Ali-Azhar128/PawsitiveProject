@@ -508,10 +508,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
-      sha256: "47430d0b0783913da54621de03697faecb8a9757c5855cab9fd3330f3dbf3ef4"
+      sha256: "167af879da4d004cd58771f1469b91dcc3b9b0a2c5334cc6bf71fd41d4b35403"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.6.0"
   google_maps_flutter_web:
     dependency: transitive
     description:
@@ -804,10 +804,10 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
-      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d
+      sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.8"
   pub_semver:
     dependency: transitive
     description:

@@ -55,7 +55,7 @@ class allShelterCard extends StatelessWidget {
             height: 5,
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 1.7,
             child: FutureBuilder(
                 future: firebaseFirestore.collection('shelters').get(),
                 builder: (context, snapshot) {
