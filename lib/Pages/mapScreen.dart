@@ -52,18 +52,14 @@ class _MyWidgetState extends State<MapWidget> {
     });*/
 
     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-    print(isLocationServiceEnabled);
 
     if (!isLocationServiceEnabled) {
       LocationPermission permission = await Geolocator.requestPermission();
     } else {
-      print('here2');
-      print(isLoading);
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       print(position);
       latLng = LatLng(position.latitude, position.longitude);
-      print('here3');
       setState(() {
         isLoading = false;
         print(isLoading);
