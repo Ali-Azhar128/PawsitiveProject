@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pawsitive1/Main%20Screen/MainScreen.dart';
+import 'package:pawsitive1/Pages/AllShelterInfoCards.dart';
 import 'package:pawsitive1/Pages/mapScreen.dart';
 import 'package:pawsitive1/Widgets/ShelterCard.dart';
 import 'package:pawsitive1/Widgets/imageCaptureButton.dart';
@@ -19,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
-    allShelterCard(),
+    allSheltersInfoCards(),
     ImageCaptureButton(),
     MapWidget()
   ];

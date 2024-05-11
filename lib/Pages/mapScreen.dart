@@ -52,17 +52,23 @@ class _MyWidgetState extends State<MapWidget> {
     });*/
 
     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    print(isLocationServiceEnabled);
 
     if (!isLocationServiceEnabled) {
       LocationPermission permission = await Geolocator.requestPermission();
     } else {
+      print('here2');
+      print(isLoading);
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
+      print(position);
       latLng = LatLng(position.latitude, position.longitude);
+      print('here3');
       setState(() {
         isLoading = false;
+        print(isLoading);
       });
-      print(latLng);
+      print("${latLng} here");
       print(position.latitude);
       print(position.longitude);
     }
@@ -78,7 +84,7 @@ class _MyWidgetState extends State<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading || latLng == null
+      body: isLoading
           ? Center(
               child: CircularProgressIndicator(
                 strokeCap: StrokeCap.round,
@@ -93,7 +99,3 @@ class _MyWidgetState extends State<MapWidget> {
     );
   }
 }
-
-      /*body: GoogleMap(
-        initialCameraPosition: CameraPosition(target: latLng!, zoom: 12),
-      ),*/

@@ -12,7 +12,7 @@ class Button extends StatelessWidget {
     return GestureDetector(
       child: Container(
         padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-        margin: EdgeInsets.fromLTRB(5, 25, 5, 15),
+        margin: EdgeInsets.fromLTRB(5, 8, 5, 15),
         width: double.infinity,
         height: 55,
         decoration: BoxDecoration(

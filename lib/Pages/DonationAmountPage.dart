@@ -58,8 +58,25 @@ class _DonationAmountPageState extends State<DonationAmountPage> {
       };
 
       // Add donation data to Firestore
-      await donationsRef.add(donationData).then((docRef) {
+      await donationsRef.add(donationData).then((docRef) async {
         print("Donation recorded with ID: ${docRef.id}");
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({
+          'donationAmt':
+              FieldValue.increment(int.parse(donationAmountController.text))
+        });
+
+        // Update totalFundingDone in shelters collection
+        await FirebaseFirestore.instance
+            .collection('shelters')
+            .doc(widget.shelterId)
+            .update({
+          'totalFundingDone':
+              FieldValue.increment(int.parse(donationAmountController.text))
+        });
       }).catchError((error) {
         print("Error adding donation: $error");
       });
