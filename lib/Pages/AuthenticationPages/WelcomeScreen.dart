@@ -28,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       setState(() {
         _user = event;
       });
-      if (_user != null) {
+      if (_user?.displayName != null) {
         print(_user!.displayName);
         Get.offAll(() => BottomNav());
       }
