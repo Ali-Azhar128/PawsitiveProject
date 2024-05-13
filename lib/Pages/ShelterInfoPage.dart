@@ -3,6 +3,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pawsitive1/Pages/DonationAmountPage.dart';
+import 'package:pawsitive1/Pages/PetsPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pawsitive1/Widgets/Button.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -89,9 +90,49 @@ class _ShelterInfoPageState extends State<ShelterInfoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'About Us',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'About Us',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          onTap: () => Get.to(() => PetsPage(
+                                ShelterId: widget.shelterId,
+                                latitude: widget.latitude,
+                                longitude: widget.longitude,
+                              )),
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 5),
+                            padding: EdgeInsets.fromLTRB(10, 3, 0, 0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color.fromARGB(255, 255, 229,
+                                    190) //Color.fromARGB(255, 255, 221, 163),
+                                ),
+                            child: Row(children: [
+                              Text(
+                                'Show Pets',
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_right,
+                                size: 36,
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ]),
                 ),
                 SizedBox(height: 10),
                 Text(widget.description),

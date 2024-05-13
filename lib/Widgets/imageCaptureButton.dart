@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,7 +18,7 @@ class ImageCaptureButton extends StatefulWidget {
 }
 
 class _AddItemState extends State<ImageCaptureButton> {
-  bool isLoading = true;
+  bool isLoading = false;
 
   TextEditingController _controllerType = TextEditingController();
   TextEditingController _controllerColor = TextEditingController();
@@ -25,7 +26,7 @@ class _AddItemState extends State<ImageCaptureButton> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String imageUrl = '';
+  String? imageUrl = '';
   double? latitude;
   double? longitude;
   void getLocation() async {
@@ -102,55 +103,90 @@ class _AddItemState extends State<ImageCaptureButton> {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () async {
-                          final picker = ImagePicker();
-                          final pickedFile = await picker.pickImage(
-                              source: ImageSource.camera);
+                        onTap: isLoading == true
+                            ? () {
+                                Get.snackbar('Uploading Image',
+                                    'Please wait while the image is being uploaded',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red);
+                              }
+                            : () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final picker = ImagePicker();
+                                var pickedFile = await picker.pickImage(
+                                    imageQuality: 30,
+                                    source: ImageSource.camera);
 
-                          if (pickedFile != null) {
-                            File file = File(pickedFile.path);
-                            imageUrl = await uploadImage(file);
-                          }
-                        },
+                                if (pickedFile != null) {
+                                  File file = File(pickedFile.path);
+                                  imageUrl = await uploadImage(file);
+                                }
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              },
                         child: Button(
                           text: 'Capture Image',
+                          isLoading: isLoading,
                         ),
                       ),
                     ),
                     SizedBox(width: 10),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () async {
-                          final picker = ImagePicker();
-                          final pickedFile = await picker.pickImage(
-                              source: ImageSource.gallery);
+                        onTap: isLoading == true
+                            ? () {
+                                Get.snackbar('Uploading Image',
+                                    'Please wait while the image is being uploaded',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red);
+                              }
+                            : () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final picker = ImagePicker();
+                                final pickedFile = await picker.pickImage(
+                                    imageQuality: 30,
+                                    source: ImageSource.gallery);
 
-                          if (pickedFile != null) {
-                            File file = File(pickedFile.path);
-                            imageUrl = await uploadImage(file);
-                          }
-                        },
+                                if (pickedFile != null) {
+                                  File file = File(pickedFile.path);
+                                  imageUrl = await uploadImage(file);
+                                }
+                              },
                         child: Button(
                           text: 'Select from Gallery',
+                          isLoading: isLoading,
                         ),
                       ),
                     ),
                   ],
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      if (imageUrl.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Please upload an image')),
-                        );
-                        return;
-                      }
+                  onTap: isLoading == true
+                      ? () {
+                          Get.snackbar('Uploading Image',
+                              'Please wait while the image is being uploaded',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red);
+                        }
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            if (imageUrl == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Please upload an image')),
+                              );
+                              return;
+                            }
 
-                      // Implement data submission to Firestore
-                      await submitStrayDetails();
-                    }
-                  },
+                            // Implement data submission to Firestore
+                            await submitStrayDetails();
+                          }
+                        },
                   child: Button(
                     text: 'Submit Details',
                   ),
@@ -163,17 +199,21 @@ class _AddItemState extends State<ImageCaptureButton> {
     );
   }
 
-  Future<String> uploadImage(File imageFile) async {
+  Future<String> uploadImage(File? imageFile) async {
     String fileName = 'images/${DateTime.now().millisecondsSinceEpoch}.jpg';
     Reference storageRef = FirebaseStorage.instance.ref().child(fileName);
 
-    UploadTask uploadTask = storageRef.putFile(imageFile);
+    UploadTask uploadTask = storageRef.putFile(imageFile!);
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
+    setState(() {
+      imageFile = null;
+    });
     return downloadUrl;
   }
 
   Future<void> submitStrayDetails() async {
+    isLoading = true;
     Map<String, dynamic> strayData = {
       'type': _controllerType.text,
       'color': _controllerColor.text,
@@ -196,5 +236,9 @@ class _AddItemState extends State<ImageCaptureButton> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Stray details submitted successfully')),
     );
+    setState(() {
+      isLoading = false;
+      imageUrl = null;
+    });
   }
 }

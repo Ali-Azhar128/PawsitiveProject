@@ -85,6 +85,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                 password: widget.password,
                                 name: widget.name,
                                 user: widget.user,
+                                phoneNumber: phoneNumber,
                               ));
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {

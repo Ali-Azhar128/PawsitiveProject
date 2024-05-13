@@ -12,12 +12,14 @@ class OTPAuthPage extends StatefulWidget {
   final String password;
   final String name;
   final User? user;
+  final String phoneNumber;
   const OTPAuthPage(
       {required this.verificationId,
       required this.email,
       required this.password,
       required this.name,
-      required this.user});
+      required this.user,
+      required this.phoneNumber});
 
   @override
   State<OTPAuthPage> createState() => _OTPAuthPageState();
@@ -39,6 +41,7 @@ class _OTPAuthPageState extends State<OTPAuthPage> {
           'createdAt': FieldValue.serverTimestamp(),
           'donationAmt': 0,
           'straysReported': 0,
+          'phoneNumber': widget.phoneNumber,
         });
 
         print("User and document created successfully.");
