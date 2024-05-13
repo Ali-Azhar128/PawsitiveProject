@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,7 @@ class ShelterInfoPage extends StatefulWidget {
 class _ShelterInfoPageState extends State<ShelterInfoPage> {
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     bool isLoading = false;
     void launchMap() async {
       final availableMaps = await MapLauncher.installedMaps;
@@ -161,15 +163,18 @@ class _ShelterInfoPageState extends State<ShelterInfoPage> {
                     isLoading: isLoading,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(DonationAmountPage(shelterId: widget.shelterId));
-                  },
-                  child: Button(
-                    text: 'Donate',
-                    isLoading: isLoading,
-                  ),
-                )
+                userId == null
+                    ? Container()
+                    : GestureDetector(
+                        onTap: () {
+                          Get.to(
+                              DonationAmountPage(shelterId: widget.shelterId));
+                        },
+                        child: Button(
+                          text: 'Donate',
+                          isLoading: isLoading,
+                        ),
+                      )
               ],
             ),
           ),

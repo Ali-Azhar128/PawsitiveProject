@@ -57,6 +57,7 @@ class _AddItemState extends State<ImageCaptureButton> {
 
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     textStyles txtStyle = textStyles();
     return Scaffold(
       body: SafeArea(

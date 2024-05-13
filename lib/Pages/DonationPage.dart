@@ -13,8 +13,20 @@ class DonationPage extends StatelessWidget {
 
     if (userId == null) {
       return Scaffold(
+        appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new),
+                onPressed: () => Get.back(),
+              );
+            },
+          ),
+          title: Text('Donation'),
+          centerTitle: true,
+        ),
         body: Center(
-          child: Text("No user signed in."),
+          child: Text("Sign In to donate."),
         ),
       );
     }

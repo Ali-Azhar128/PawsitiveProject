@@ -52,38 +52,41 @@ class ShelterCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)),
-                              child: Image.network(
-                                data['image'],
-                                fit: BoxFit.cover,
-                                height: 200,
-                                width: double.infinity,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    return Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 100, 0, 100),
-                                        child: SizedBox(
-                                          height: 25,
-                                          width: 25,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 5,
-                                            strokeCap: StrokeCap.round,
-                                            color: Colors.yellow,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10)),
+                                child: data['image'] == ""
+                                    ? Center(child: Text('No Image'))
+                                    : Image.network(
+                                        data['image'],
+                                        fit: BoxFit.cover,
+                                        height: 200,
+                                        width: double.infinity,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          } else {
+                                            return Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 100, 0, 100),
+                                                child: SizedBox(
+                                                  height: 25,
+                                                  width: 25,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 5,
+                                                    strokeCap: StrokeCap.round,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      )),
                             SizedBox(
                               height: 15,
                             ),
@@ -125,7 +128,9 @@ class ShelterCard extends StatelessWidget {
                                         Color.fromARGB(255, 213, 213, 213),
                                     ignoreGestures: true,
                                     itemSize: 30,
-                                    initialRating: data['ratings'].toDouble(),
+                                    initialRating: data['ratings'] == null
+                                        ? 0
+                                        : data['ratings'].toDouble(),
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,

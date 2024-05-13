@@ -10,6 +10,7 @@ import 'package:pawsitive1/Controllers/getxControllers/loginButtonController.dar
 import 'package:pawsitive1/Controllers/getxControllers/signupFieldController.dart';
 import 'package:pawsitive1/Pages/AuthenticationPages/signupPage.dart';
 import 'package:pawsitive1/Pages/AuthenticationPages/WelcomeScreen.dart';
+import 'package:pawsitive1/Widgets/BottomNav.dart';
 import 'package:pawsitive1/firebase_options.dart';
 
 Future<void> main() async {
@@ -43,6 +44,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
         ),
-        home: WelcomeScreen());
+        home: BottomNav());
   }
 }

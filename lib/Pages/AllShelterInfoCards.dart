@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class allSheltersInfoCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     textStyles txtStyle = textStyles();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     return SafeArea(
@@ -186,8 +188,9 @@ class allSheltersInfoCards extends StatelessWidget {
                                               255, 213, 213, 213),
                                           ignoreGestures: true,
                                           itemSize: 30,
-                                          initialRating:
-                                              data['ratings'].toDouble(),
+                                          initialRating: data['ratings'] == null
+                                              ? 0
+                                              : data['ratings'].toDouble(),
                                           minRating: 1,
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,

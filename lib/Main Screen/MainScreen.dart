@@ -15,6 +15,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseAuth _auth = FirebaseAuth.instance;
+    final userId = FirebaseAuth.instance.currentUser?.uid;
 
     Future<void> signOut() async {
       try {
@@ -57,19 +58,39 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              title: Text(
-                'Sign Out',
-                style: GoogleFonts.poppins(
-                    textStyle:
-                        TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
-              ),
-              leading: Icon(Icons.exit_to_app, size: 30, weight: 100),
-              onTap: () async {
-                await signOut();
+            Container(
+              child: Column(
+                children: [
+                  userId == null
+                      ? ListTile(
+                          title: Text(
+                            'Log In',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20)),
+                          ),
+                          leading: Icon(Icons.login, size: 30, weight: 100),
+                          onTap: () {
+                            Get.to(() => WelcomeScreen());
+                          },
+                        )
+                      : Container(),
+                  ListTile(
+                    title: Text(
+                      'Sign Out',
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 20)),
+                    ),
+                    leading: Icon(Icons.exit_to_app, size: 30, weight: 100),
+                    onTap: () async {
+                      await signOut();
 
-                // Implement your sign-out functionality here
-              },
+                      // Implement your sign-out functionality here
+                    },
+                  )
+                ],
+              ),
             ),
           ],
         ),
