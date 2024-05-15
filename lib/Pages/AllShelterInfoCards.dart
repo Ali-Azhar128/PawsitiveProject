@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pawsitive1/Pages/DonationAmountPage.dart';
 import 'package:pawsitive1/Pages/ShelterInfoPage.dart';
@@ -12,6 +13,7 @@ class allSheltersInfoCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     final userId = FirebaseAuth.instance.currentUser?.uid;
     textStyles txtStyle = textStyles();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -58,7 +60,7 @@ class allSheltersInfoCards extends StatelessWidget {
             height: 5,
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 1.7,
+            height: MediaQuery.of(context).size.height / 2.h,
             child: FutureBuilder(
                 future: firebaseFirestore.collection('shelters').get(),
                 builder: (context, snapshot) {

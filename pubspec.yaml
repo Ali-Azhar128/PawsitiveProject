@@ -57,6 +57,7 @@ dependencies:
   map_launcher: ^3.3.0
   intl_phone_field: ^3.2.0
   sms_autofill: ^2.3.1
+  geoflutterfire2: ^2.3.15
 
 dev_dependencies:
   flutter_test:

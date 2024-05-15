@@ -86,6 +86,8 @@
 		<string>kakaomap</string>
 		<string>tmap</string>
 		<string>szn-mapy</string>
+		<string>sms</string>
+  		<string>tel</string>
 	</array>
 </dict>
 </plist>

@@ -2,18 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pawsitive1/Pages/AuthenticationPages/welcomeScreen.dart';
 import 'package:pawsitive1/Pages/DonationPage.dart';
+import 'package:pawsitive1/Pages/NearbyAnimalsScreen.dart';
 import 'package:pawsitive1/Widgets/AnimalsList.dart';
 import 'package:pawsitive1/Widgets/Button.dart';
 import 'package:pawsitive1/styles/textStyles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     FirebaseAuth _auth = FirebaseAuth.instance;
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
@@ -75,20 +85,20 @@ class MainScreen extends StatelessWidget {
                           },
                         )
                       : Container(),
-                  ListTile(
-                    title: Text(
-                      'Sign Out',
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 20)),
-                    ),
-                    leading: Icon(Icons.exit_to_app, size: 30, weight: 100),
-                    onTap: () async {
-                      await signOut();
-
-                      // Implement your sign-out functionality here
-                    },
-                  )
+                  userId != null
+                      ? ListTile(
+                          title: Text(
+                            'Log Out',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20)),
+                          ),
+                          leading: Icon(Icons.logout, size: 30, weight: 100),
+                          onTap: () {
+                            signOut();
+                          },
+                        )
+                      : Container(),
                 ],
               ),
             ),
@@ -118,8 +128,8 @@ class MainScreen extends StatelessWidget {
                     ),
                     Text(
                       'Shelter pets need your monthly gift',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 16.sp),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -132,29 +142,30 @@ class MainScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 17),
+              SizedBox(height: 17.h),
               Text(
                 'Search For a Pet',
                 style: TextStyle(
-                  fontSize: 35,
+                  fontSize: 26.sp,
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               TextField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Color.fromARGB(255, 237, 237, 237),
                   hintText: 'Search',
-                  hintStyle: TextStyle(fontSize: 20),
-                  prefixIcon: Icon(Icons.search, color: Colors.black, size: 30),
+                  hintStyle: TextStyle(fontSize: 14.sp),
+                  prefixIcon:
+                      Icon(Icons.search, color: Colors.black, size: 20.sp),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 25.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -162,12 +173,15 @@ class MainScreen extends StatelessWidget {
                     'Recommended',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                   ),
-                  Text(
-                    'See All',
-                    style: TextStyle(
-                        color: Color(0xff99a2b9),
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                  GestureDetector(
+                    onTap: () => Get.to(() => NearbyAnimalsScreen()),
+                    child: Text(
+                      'See All',
+                      style: TextStyle(
+                          color: Color(0xff99a2b9),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ],
               ),

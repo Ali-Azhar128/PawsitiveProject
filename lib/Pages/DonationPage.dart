@@ -112,22 +112,6 @@ class DonationPage extends StatelessWidget {
                           SizedBox(
                             width: 20,
                           ),
-                          Container(
-                            height: 40,
-                            width: 110,
-                            padding: EdgeInsets.fromLTRB(15, 0, 8, 0),
-                            child: Center(
-                              child: Text(
-                                'View',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black),
-                          )
                         ],
                       ),
                     ),

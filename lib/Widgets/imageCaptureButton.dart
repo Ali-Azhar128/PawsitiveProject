@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +19,7 @@ class ImageCaptureButton extends StatefulWidget {
 }
 
 class _AddItemState extends State<ImageCaptureButton> {
+  final geo = GeoFlutterFire();
   bool isLoading = false;
 
   TextEditingController _controllerType = TextEditingController();
@@ -214,7 +216,10 @@ class _AddItemState extends State<ImageCaptureButton> {
   }
 
   Future<void> submitStrayDetails() async {
+    GeoFirePoint myLocation =
+        geo.point(latitude: latitude!, longitude: longitude!);
     isLoading = true;
+    GeoPoint location = GeoPoint(latitude!, longitude!);
     Map<String, dynamic> strayData = {
       'type': _controllerType.text,
       'color': _controllerColor.text,
@@ -222,6 +227,8 @@ class _AddItemState extends State<ImageCaptureButton> {
       'image': imageUrl,
       'latitude': latitude,
       'longitude': longitude,
+      'location': location,
+      'locations': myLocation.data,
     };
 
     await FirebaseFirestore.instance.collection('animals').add(strayData);

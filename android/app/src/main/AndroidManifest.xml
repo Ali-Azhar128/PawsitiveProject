@@ -43,6 +43,15 @@
             android:name="flutterEmbedding"
             android:value="2" />
          <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="@strings/MAPS_API_KEY@"/>
+                android:value="AIzaSyD_-ha0aDgy5HWJCLJDv5YDHQ5Z4j3u_eo"/>
     </application>
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
+    
+    
 </manifest>

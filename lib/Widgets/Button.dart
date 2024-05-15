@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Button extends StatelessWidget {
@@ -9,12 +10,13 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return GestureDetector(
       child: Container(
-        padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-        margin: EdgeInsets.fromLTRB(5, 8, 5, 15),
+        padding: EdgeInsets.fromLTRB(5.w, 8.h, 5.w, 8.h),
+        margin: EdgeInsets.fromLTRB(5.w, 8.h, 5.w, 10.h),
         width: double.infinity,
-        height: 55,
+        height: 50.h,
         decoration: BoxDecoration(
             color: Colors.black, borderRadius: BorderRadius.circular(8)),
         child: Center(
@@ -29,7 +31,7 @@ class Button extends StatelessWidget {
                   style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w900)),
                 ),
         ),
